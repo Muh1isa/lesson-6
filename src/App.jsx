@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Header from './components/Header'
 import Login from './components/Login'
-import { getStore } from './utils'
+import { getStore, getUser } from './utils'
 import { uid } from 'uid'
-import Add from './components/Add'
 import Products from './components/Products'
+import { Route, Routes } from 'react-router-dom'
+import ProtectedRoute from './components/ProtectedRoute'
+import Home from './components/Home'
 
 function App() {
   const id = uid()
@@ -17,15 +19,15 @@ function App() {
   const [pname, setPname] = useState('')
   const [price, setPrice] = useState('')
 
-  const [users, setUsers] = useState(getStore('user'))
-  const [products, setProducts] = useState(getStore('product'))
+  const [user, setUser] = useState(getUser('user'))
+  const [products, setProducts] = useState(getStore('products'))
 
   const [edit, setEdit] = useState(false)
   const [editId, setEditId] = useState(null)
 
   const handleSubmit = () => {
     const newUser = {id: id, name: name, email: email}
-    setUsers(newUser)
+    setUser(newUser)
   }
 
   const addItem = () => {
@@ -58,16 +60,22 @@ function App() {
   }
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(users))
-    localStorage.setItem('product', JSON.stringify(products))
-  }, [users, products])
+    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('products', JSON.stringify(products))
+  }, [user, products])
 
   return (
     <>
       <Header login={login} setLogin={setLogin} />
-      {login && <Login name={name} setName={setName} email={email} setEmail={setEmail} handleSubmit={handleSubmit} />}
-      <Add pname={pname} setPname={setPname} price={price} setPrice={setPrice} addItem={addItem} edit={edit}  />
-      <Products products={products} removeItem={removeItem} edit={edit} setEdit={setEdit} editItem={editItem} />
+      <Routes>
+        <Route path='/' element={<Home />} /> 
+        <Route path='/add' element={
+          <ProtectedRoute user={user}>
+            <Products products={products} removeItem={removeItem} edit={edit} setEdit={setEdit} editItem={editItem} pname={pname} setPname={setPname} price={price} setPrice={setPrice} addItem={addItem}  />
+          </ProtectedRoute>
+        } />
+        <Route path='/login' element={login && <Login name={name} setName={setName} email={email} setEmail={setEmail} handleSubmit={handleSubmit} />} />
+      </Routes>      
     </>
   )
 }

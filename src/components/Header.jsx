@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header({login, setLogin}) {
   return (
     <div className="nav">
@@ -7,7 +9,14 @@ export default function Header({login, setLogin}) {
             <li>Delivery</li>
             <li>Contact us</li>
             <li>
+              <Link to='/add'>
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link to='/login'>
                 <button onClick={() => setLogin(!login)}>Sign in</button>
+              </Link>
             </li>
         </ul>
     </div>

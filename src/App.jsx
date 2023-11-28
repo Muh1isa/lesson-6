@@ -8,6 +8,8 @@ import Products from './components/Products'
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './components/Home'
+import Single from './components/Single'
+import Error from './components/Error'
 
 function App() {
   const id = uid()
@@ -59,6 +61,7 @@ function App() {
     setPrice(editedItem.price)    
   }
 
+
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user))
     localStorage.setItem('products', JSON.stringify(products))
@@ -75,6 +78,8 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path='/login' element={login && <Login name={name} setName={setName} email={email} setEmail={setEmail} handleSubmit={handleSubmit} />} />
+        <Route path='/single/:id' element={<Single products={products}  />} />
+        <Route path='*' element={<Error />} />
       </Routes>      
     </>
   )

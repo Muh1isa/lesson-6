@@ -1,4 +1,6 @@
-export default function Products({ products, removeItem, edit, setEdit, editItem, pname, setPname, price, setPrice, addItem }) {
+import { Link } from "react-router-dom"
+
+export default function Products({ products, removeItem, edit, setEdit, editItem, pname, setPname, price, setPrice, addItem, }) {
     return (
 
         <div className="container">
@@ -15,7 +17,10 @@ export default function Products({ products, removeItem, edit, setEdit, editItem
                                 <h2>{item.name}</h2>
                                 <p>{item.price}</p>
                                 <button onClick={() => removeItem(item.id)}>remove</button><br /><br />
-                                <button onClick={() => editItem(item.id)}>edit</button>
+                                <button onClick={() => editItem(item.id)}>edit</button><br /><br />
+                                <Link to={`/single/${item.id}`}>
+                                    <button>submit</button>
+                                </Link>
                             </div>
                         )
                     })
@@ -25,3 +30,4 @@ export default function Products({ products, removeItem, edit, setEdit, editItem
 
     )
 }
+

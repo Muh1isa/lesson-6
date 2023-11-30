@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../context";
 
-export default function Header({login, setLogin}) {
+export default function Header() {
+  const {login, setLogin} = useGlobalContext()
   return (
     <div className="nav">
         <ul className="nav-list">

@@ -1,4 +1,8 @@
-export default function Login({name, setName, email, setEmail, handleSubmit}) {
+import { useGlobalContext } from "../context"
+
+export default function Login() {
+  const {name, setName, email, setEmail, handleSubmit} = useGlobalContext()
+  
   return (
     <div className="login">
         <input type="text" placeholder="Username" value={name} onChange={(e) => setName(e.target.value)} /><br /><br />

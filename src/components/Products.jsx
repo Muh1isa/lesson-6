@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useGlobalContext } from "../context"
 
-export default function Products({ products, removeItem, edit, setEdit, editItem, pname, setPname, price, setPrice, addItem, }) {
+export default function Products() {
+    const { products, removeItem, edit, editItem, pname, setPname, price, setPrice, addItem, } = useGlobalContext()
+    const navigate = useNavigate()
+
     return (
 
         <div className="container">
@@ -18,9 +22,7 @@ export default function Products({ products, removeItem, edit, setEdit, editItem
                                 <p>{item.price}</p>
                                 <button onClick={() => removeItem(item.id)}>remove</button><br /><br />
                                 <button onClick={() => editItem(item.id)}>edit</button><br /><br />
-                                <Link to={`/single/${item.id}`}>
-                                    <button>submit</button>
-                                </Link>
+                                <button onClick={() => navigate(`/single/${item.id}`)}>more</button>
                             </div>
                         )
                     })
